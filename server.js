@@ -10,9 +10,15 @@ app.get('/', function (req, res) {
     res.sendFile(__dirname + '/chatWindow.html')
 });
 
-io.on('connection',function (soc) {
-    console.log('a user connected')
-})
+io.on('connection', function(socket){
+    socket.on('newMessage', function(msg){
+        io.emit('newMessage', msg);
+    });
+    socket.on('disconnect', function (socket) {
+        io.emit('dc','smn has dced' )
+    })
+});
+
 
 http.listen(3000, function () {
     console.log('Listening on 3000')
